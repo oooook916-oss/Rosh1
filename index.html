@@ -1050,43 +1050,29 @@ ager
         setTimeout(() => { try { setup(); } catch (e) {} }, 1200);
       }
     })();
-  </script>
-
-<div id="permanent-bg" style="
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-image: url('https://i.imgur.com/HA3JhFp.png') !important;
-    background-size: cover !important;
-    background-position: center !important;
-    z-index: -1000;
-"></div>
-
-<style>
-    /* إجبار كل شيء على الشفافية ليظهر ما تحته */
-    html, body, canvas, #canvas, #screen, .game-ui, #ui-container {
-        background-color: transparent !important;
-        background-image: none !important;
-    }
-</style>
-
 <script>
-    const forceBg = () => {
-        // إخفاء أي خلفية سوداء تضعها اللعبة برمجياً على الكانفاس
-        const gameCanvas = document.querySelector('canvas') || document.querySelector('#screen');
-        if (gameCanvas) {
-            gameCanvas.style.setProperty('background', 'transparent', 'important');
-            gameCanvas.style.setProperty('background-color', 'transparent', 'important');
-        }
-        // التأكد من أن الطبقة الخاصة بنا لا تزال موجودة
-        const bg = document.getElementById('permanent-bg');
-        if (bg) bg.style.zIndex = "-1000";
-    };
+  const myBg = "url('https://i.imgur.com/HA3JhFp.png')";
+  
+  const fixGameThemedBackground = () => {
+    // 1. تثبيت خلفية الجسم
+    if (document.body.style.backgroundImage !== myBg) {
+      document.body.style.setProperty('background-image', myBg, 'important');
+      document.body.style.setProperty('background-color', 'transparent', 'important');
+    }
 
-    // تنفيذ كل 50 ملي ثانية (سرعة هائلة لمنع اللعبة من السيطرة)
-    setInterval(forceBg, 50);
+    // 2. إجبار محرك اللعبة (Canvas) على الشفافية
+    // استهدفنا المعرفات الظاهرة في صورتك: game-display و minimap-canvas
+    const canvases = document.querySelectorAll('canvas, #game-display, #minimap-canvas');
+    canvases.forEach(cvs => {
+      if (cvs.style.background !== 'transparent') {
+        cvs.style.setProperty('background', 'transparent', 'important');
+        cvs.style.setProperty('background-color', 'transparent', 'important');
+      }
+    });
+  };
+
+  // تشغيل الفحص بسرعة عالية جداً (كل 30 ملي ثانية) لغلبة محرك اللعبة
+  setInterval(fixGameThemedBackground, 30);
 </script>
 </body>
 </html>
