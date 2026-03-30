@@ -1050,29 +1050,50 @@ ager
         setTimeout(() => { try { setup(); } catch (e) {} }, 1200);
       }
     })();
+<div id="master-bg" style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('https://i.imgur.com/HA3JhFp.png') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    z-index: -9999;
+    pointer-events: none;
+"></div>
+
 <script>
-  const myBg = "url('https://i.imgur.com/HA3JhFp.png')";
-  
-  const fixGameThemedBackground = () => {
-    // 1. تثبيت خلفية الجسم
-    if (document.body.style.backgroundImage !== myBg) {
-      document.body.style.setProperty('background-image', myBg, 'important');
-      document.body.style.setProperty('background-color', 'transparent', 'important');
-    }
+    const nuclearFix = () => {
+        // 1. استهداف "كل" العناصر التي قد تحتوي على لون أسود
+        const allElements = document.querySelectorAll('*');
+        allElements.forEach(el => {
+            const style = window.getComputedStyle(el);
+            // إذا كان العنصر له خلفية سوداء أو غامقة، اجعلها شفافة
+            if (style.backgroundColor === 'rgb(0, 0, 0)' || el.id === 'game-display' || el.tagName === 'CANVAS') {
+                el.style.setProperty('background-color', 'transparent', 'important');
+                el.style.setProperty('background-image', 'none', 'important');
+            }
+        });
 
-    // 2. إجبار محرك اللعبة (Canvas) على الشفافية
-    // استهدفنا المعرفات الظاهرة في صورتك: game-display و minimap-canvas
-    const canvases = document.querySelectorAll('canvas, #game-display, #minimap-canvas');
-    canvases.forEach(cvs => {
-      if (cvs.style.background !== 'transparent') {
-        cvs.style.setProperty('background', 'transparent', 'important');
-        cvs.style.setProperty('background-color', 'transparent', 'important');
-      }
-    });
-  };
+        // 2. التأكد من أن طبقتنا لا تزال في الخلف
+        const bg = document.getElementById('master-bg');
+        if (bg) {
+            bg.style.display = 'block';
+            document.body.style.background = 'transparent';
+        }
+    };
 
-  // تشغيل الفحص بسرعة عالية جداً (كل 30 ملي ثانية) لغلبة محرك اللعبة
-  setInterval(fixGameThemedBackground, 30);
+    // تشغيل مكثف كل 20 ملي ثانية لضمان الفوز على محرك اللعبة
+    setInterval(nuclearFix, 20);
 </script>
+
+<style>
+    /* أمر عسكري للمتصفح بجعل كل شيء شفاف */
+    html, body, canvas, #game-display {
+        background: transparent !important;
+        background-color: transparent !important;
+    }
+</style>
 </body>
 </html>
