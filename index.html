@@ -1066,6 +1066,33 @@ ager
     })();
   </script>
 
+<script>
+  // 1. تغيير الخلفية فوراً
+  const setBg = () => {
+    const bgUrl = "https://i.imgur.com/HA3JhFp.png";
+    document.body.style.setProperty('background-image', `url("${bgUrl}")`, 'important');
+    document.body.style.setProperty('background-size', 'cover', 'important');
+    document.body.style.setProperty('background-attachment', 'fixed', 'important');
+    
+    // 2. جعل كل الحاويات شفافة لتظهر الخلفية من تحتها
+    const selectors = ['canvas', '#screen', '#canvas', '.game-overlay', '#ui-container'];
+    selectors.forEach(sel => {
+        const el = document.querySelector(sel);
+        if (el) el.style.setProperty('background', 'transparent', 'important');
+    });
+  };
 
+  // تشغيل الكود فوراً وبشكل مستمر كل 100 ملي ثانية (عشان اللعبة ما تلحّق تمسحه)
+  setInterval(setBg, 100);
+  
+  // تشغيله أيضاً عند اكتمال تحميل الصفحة
+  window.addEventListener('load', setBg);
+</script>
+
+<style>
+  /* إخفاء اللون الأسود الذي تضعه اللعبة عادة */
+  #canvas, #screen { background-color: rgba(0,0,0,0) !important; }
+  body { background-color: transparent !important; }
+</style>
 </body>
 </html>
