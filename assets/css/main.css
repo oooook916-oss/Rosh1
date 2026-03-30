@@ -1,4 +1,38 @@
+/* 1. إجبار الخلفية على الظهور في كل مكان */
+html, body {
+    background-image: url('https://i.imgur.com/HA3JhFp.png') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-attachment: fixed !important;
+    background-repeat: no-repeat !important;
+    background-color: transparent !important;
+}
 
+/* 2. جعل محرك اللعبة (Canvas) شفافاً تماماً */
+/* استهدفنا كل الأسماء الممكنة التي قد تستخدمها اللعبة */
+canvas, 
+#game-display, 
+#canvas, 
+#screen, 
+.game-content, 
+#ui-container {
+    background: transparent !important;
+    background-color: rgba(0, 0, 0, 0) !important;
+}
+
+/* 3. إخفاء أي طبقات سوداء أو رمادية قد تظهر فوق الصورة */
+div[style*="background-color: rgb(0, 0, 0)"], 
+div[style*="background-color: black"],
+.overlay, 
+.background-black {
+    background-color: transparent !important;
+}
+
+/* 4. كود إضافي لضمان عدم وجود مساحات بيضاء أو سوداء */
+* {
+    border-color: transparent !important;
+    outline: none !important;
+}
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
 
 
